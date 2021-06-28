@@ -15,6 +15,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "bcrypt-nodejs": "0.0.3",
+    "bcryptjs": "^2.4.3",
     "bootstrap": "^5.0.2",
     "concurrently": "^6.2.0",
     "config": "^3.3.6",

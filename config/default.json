@@ -1,0 +1,4 @@
+{
+    "dbURI": "mongodb+srv://wg:helloorbital@orbital.ujscx.mongodb.net/orbital",
+    "jwtsecret": "96D2B46D51D7484ECD926BBC2D39F4FA17D88e43CA8FF597F6E537BED82f4C84"
+}

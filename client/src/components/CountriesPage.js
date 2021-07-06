@@ -12,9 +12,46 @@ import Box from "@material-ui/core/Box";
 export default function Countries() {
   const history = useHistory();
 
-  const routeChange = () => {
-    let path = "/places";
-    history.push(path);
+  const routeChange = (id) => {
+    // let path = "/places";
+    // history.push(path);
+
+    if (id === 1) {
+      history.push({
+        pathname: "/places",
+        state: { name: "tokyo" },
+      });
+    } else if (id === 2) {
+      history.push({
+        pathname: "/places",
+        state: { name: "osaka" },
+      });
+    } else if (id === 3) {
+      history.push({
+        pathname: "/places",
+        state: { name: "seoul" },
+      });
+    } else if (id === 4) {
+      history.push({
+        pathname: "/places",
+        state: { name: "busan" },
+      });
+    } else if (id === 5) {
+      history.push({
+        pathname: "/places",
+        state: { name: "bali" },
+      });
+    } else if (id === 6) {
+      history.push({
+        pathname: "/places",
+        state: { name: "taipei" },
+      });
+    } else if (id === 7) {
+      history.push({
+        pathname: "/places",
+        state: { name: "beijing" },
+      });
+    }
   };
 
   return (
@@ -41,11 +78,17 @@ export default function Countries() {
             cellHeight={160}
             cols={3}
             style={{ width: 800, height: 600 }}
-            onClick={routeChange}
           >
             {dataList.data.map((data) => (
               <GridListTile key={data.id}>
-                <img src={data.image} alt={data.title} />
+                <img
+                  src={data.image}
+                  alt={data.title}
+                  onClick={() => {
+                    routeChange(data.id);
+                  }}
+                />
+
                 <GridListTileBar
                   title={data.title}
                   style={{ textAlign: "start" }}

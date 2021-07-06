@@ -12,8 +12,9 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../redux/redux";
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import { addCartToDB } from "../redux/cartRedux";
+import { useLocation } from "react-router";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -33,14 +34,6 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-const clientID = 'ZQAGA4ZUCP0NJVMTYE20YXYL4UAHLVQKUDBHBK1WFRQLQSZA';
-const clientSecret = 'KQPU2Q3YWTVZFCJY3JFV2D5N1SCQJSXWFFQSKTX2GGURC0JI';
-const api_v = '20190425';
-
- const url =
- `https://api.foursquare.com/v2/venues/explore?client_id=${clientID}&client_secret=${clientSecret}&v=${api_v}&near=bali&query=tourist&limit=70&offset=5`;
-console.log(url);
-
 const useStyles = makeStyles({
   table: {
     minWidth: 700,
@@ -48,10 +41,20 @@ const useStyles = makeStyles({
 });
 
 //const url =
-  //"https://api.foursquare.com/v2/venues/explore?client_id=ZQAGA4ZUCP0NJVMTYE20YXYL4UAHLVQKUDBHBK1WFRQLQSZA&client_secret=KQPU2Q3YWTVZFCJY3JFV2D5N1SCQJSXWFFQSKTX2GGURC0JI&v=20190425&near=bali&query=tourist&limit=70&offset=5";
+//"https://api.foursquare.com/v2/venues/explore?client_id=ZQAGA4ZUCP0NJVMTYE20YXYL4UAHLVQKUDBHBK1WFRQLQSZA&client_secret=KQPU2Q3YWTVZFCJY3JFV2D5N1SCQJSXWFFQSKTX2GGURC0JI&v=20190425&near=bali&query=tourist&limit=70&offset=5";
 
- function Places({ auth, addCartToDB } ) {
+function Places({ auth, addCartToDB }) {
   const classes = useStyles();
+
+  const location = useLocation();
+
+  const clientID = "ZQAGA4ZUCP0NJVMTYE20YXYL4UAHLVQKUDBHBK1WFRQLQSZA";
+  const clientSecret = "KQPU2Q3YWTVZFCJY3JFV2D5N1SCQJSXWFFQSKTX2GGURC0JI";
+  const api_v = "20190425";
+  const venue = location.state.name;
+
+  const url = `https://api.foursquare.com/v2/venues/explore?client_id=${clientID}&client_secret=${clientSecret}&v=${api_v}&near=${venue}&query=tourist&limit=70&offset=5`;
+  console.log(url);
 
   const [reco, setReco] = useState([]);
   const getReco = async () => {
@@ -69,8 +72,8 @@ const useStyles = makeStyles({
   const { cartItems } = cart;
 
   const handleSave = () => {
-addCartToDB(auth.user._id, cartItems)
-  }
+    addCartToDB(auth.user._id, cartItems);
+  };
 
   return (
     <div style={{ display: "flex" }}>
@@ -123,23 +126,21 @@ addCartToDB(auth.user._id, cartItems)
             </ul>
           );
         })}
-        
-          {auth.isAuthenticated ? (
-        <Button variant="contained" color="secondary" onClick={handleSave}>
-          SAVE
-        </Button>
-          ) : (
-            <h4> Please log in to save items</h4>
-          )}
-        
+
+        {auth.isAuthenticated ? (
+          <Button variant="contained" color="secondary" onClick={handleSave}>
+            SAVE
+          </Button>
+        ) : (
+          <h4> Please log in to save items</h4>
+        )}
       </Container>
     </div>
   );
 }
 
 function mapStateToProps(state) {
-  return { auth: state.auth, 
-    cartItems: state.cartItems };
+  return { auth: state.auth, cartItems: state.cartItems };
 }
 
-export default connect(mapStateToProps, {addCartToDB})(Places);
+export default connect(mapStateToProps, { addCartToDB })(Places);

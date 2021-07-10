@@ -51,10 +51,17 @@ function Places({ auth, addCartToDB }) {
   const clientID = "ZQAGA4ZUCP0NJVMTYE20YXYL4UAHLVQKUDBHBK1WFRQLQSZA";
   const clientSecret = "KQPU2Q3YWTVZFCJY3JFV2D5N1SCQJSXWFFQSKTX2GGURC0JI";
   const api_v = "20190425";
-  const venue = location.state.name;
+  const venue = location.search;
 
-  const url = `https://api.foursquare.com/v2/venues/explore?client_id=${clientID}&client_secret=${clientSecret}&v=${api_v}&near=${venue}&query=tourist&limit=70&offset=5`;
-  console.log(url);
+  if (venue !== '') {
+    localStorage.setItem('name', venue);
+  }
+
+  const storedVenue = localStorage.getItem('name');
+  console.log(storedVenue);
+
+  const url = `https://api.foursquare.com/v2/venues/explore?client_id=${clientID}&client_secret=${clientSecret}&v=${api_v}&near=${storedVenue}&query=tourist&limit=70&offset=5`;
+
 
   const [reco, setReco] = useState([]);
   const getReco = async () => {

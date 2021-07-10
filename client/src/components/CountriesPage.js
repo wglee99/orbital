@@ -13,43 +13,42 @@ export default function Countries() {
   const history = useHistory();
 
   const routeChange = (id) => {
-    // let path = "/places";
-    // history.push(path);
 
     if (id === 1) {
       history.push({
         pathname: "/places",
-        state: { name: "tokyo" },
+        search: 'tokyo',
       });
     } else if (id === 2) {
       history.push({
+
         pathname: "/places",
-        state: { name: "osaka" },
+        search: 'osaka',
       });
     } else if (id === 3) {
       history.push({
         pathname: "/places",
-        state: { name: "seoul" },
+        search: 'seoul',
       });
     } else if (id === 4) {
       history.push({
         pathname: "/places",
-        state: { name: "busan" },
+        search: 'busan',
       });
     } else if (id === 5) {
       history.push({
         pathname: "/places",
-        state: { name: "bali" },
+        search: 'bali',
       });
     } else if (id === 6) {
       history.push({
         pathname: "/places",
-        state: { name: "taipei" },
+        search: 'taipei',
       });
     } else if (id === 7) {
       history.push({
         pathname: "/places",
-        state: { name: "beijing" },
+        search: 'beijing',
       });
     }
   };

@@ -1,8 +1,6 @@
 import * as React from "react";
-import Box from "@material-ui/core/Box";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import Button from "@material-ui/core/Button";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Switch, Route, Link } from "react-router-dom";
 import Flights from "./Flights";
@@ -19,7 +17,6 @@ import {
   Nav,
   NavItem,
   Container,
-  NavLink,
 } from "reactstrap";
 import RegisterModal from "./auth/RegisterModal";
 import Logout from "./auth/Logout";

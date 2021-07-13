@@ -1,7 +1,7 @@
 import Container from "@material-ui/core/Container";
 import { useSelector } from "react-redux";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { getCart } from "../redux/cartRedux";
 import { connect } from "react-redux";
 

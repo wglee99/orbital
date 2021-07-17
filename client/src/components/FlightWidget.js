@@ -3,9 +3,7 @@ import loadScript from "load-script";
 
 export default class Widget extends React.Component {
   componentDidMount() {
-    loadScript(
-      "https://widgets.skyscanner.net/widget-server/js/loader.js"
-    );
+    loadScript("https://widgets.skyscanner.net/widget-server/js/loader.js");
   }
 
   render() {

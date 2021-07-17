@@ -13,7 +13,7 @@ import Paper from "@material-ui/core/Paper";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../redux/redux";
 import { connect } from "react-redux";
-import { addCartToDB } from "../redux/cartRedux";
+import { addCartToDB, getCart } from "../redux/cartRedux";
 import { useLocation } from "react-router";
 
 const StyledTableCell = withStyles((theme) => ({
@@ -43,7 +43,7 @@ const useStyles = makeStyles({
 //const url =
 //"https://api.foursquare.com/v2/venues/explore?client_id=ZQAGA4ZUCP0NJVMTYE20YXYL4UAHLVQKUDBHBK1WFRQLQSZA&client_secret=KQPU2Q3YWTVZFCJY3JFV2D5N1SCQJSXWFFQSKTX2GGURC0JI&v=20190425&near=bali&query=tourist&limit=70&offset=5";
 
-function Places({ auth, addCartToDB }) {
+function Places({ auth, addCartToDB, getCart }) {
   const classes = useStyles();
 
   const location = useLocation();
@@ -53,15 +53,14 @@ function Places({ auth, addCartToDB }) {
   const api_v = "20190425";
   const venue = location.search;
 
-  if (venue !== '') {
-    localStorage.setItem('name', venue);
+  if (venue !== "") {
+    localStorage.setItem("name", venue);
   }
 
-  const storedVenue = localStorage.getItem('name');
+  const storedVenue = localStorage.getItem("name");
   console.log(storedVenue);
 
   const url = `https://api.foursquare.com/v2/venues/explore?client_id=${clientID}&client_secret=${clientSecret}&v=${api_v}&near=${storedVenue}&query=tourist&limit=70&offset=5`;
-
 
   const [reco, setReco] = useState([]);
   const getReco = async () => {
@@ -78,10 +77,17 @@ function Places({ auth, addCartToDB }) {
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
 
-  const handleSave = () => {
-    addCartToDB(auth.user._id, cartItems);
+  if (auth.user !== null) {
+  const userId = auth.user._id;
+  }
+
+  const handleSave = (userId) => {
+    addCartToDB(userId, cartItems);
   };
 
+  const handleGetCart = (userId) => {
+    getCart(userId);
+  };
   return (
     <div style={{ display: "flex" }}>
       <TableContainer component={Paper} style={{ width: 1500 }}>
@@ -120,27 +126,22 @@ function Places({ auth, addCartToDB }) {
 
       <Container style={{ width: 1000 }}>
         <h3>My List</h3>
-        {cartItems.map((item) => {
-          return (
-            <ul>
-              {item.name}
-              <Button
-                color="secondary"
-                onClick={() => dispatch(removeFromCart(item.id))}
-              >
-                Remove
-              </Button>
-            </ul>
-          );
-        })}
 
-        {auth.isAuthenticated ? (
-          <Button variant="contained" color="secondary" onClick={handleSave}>
-            SAVE
-          </Button>
-        ) : (
-          <h4> Please log in to save items</h4>
-        )}
+        {auth.isAuthenticated
+          ? handleGetCart
+          : cartItems.map((item) => {
+              return (
+                <ul>
+                  {item.name}
+                  <Button
+                    color="secondary"
+                    onClick={() => dispatch(removeFromCart(item.id))}
+                  >
+                    Remove
+                  </Button>
+                </ul>
+              );
+            })}
       </Container>
     </div>
   );

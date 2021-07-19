@@ -4,7 +4,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 
 // Reducers
 import { cartReducer } from "./redux";
-import { cartToDBReducer } from "./cartRedux";
+import { itemReducer } from "./itemRedux";
 import { authReducer } from "./authRedux";
 import { errorReducer } from "./errorRedux";
 
@@ -12,24 +12,24 @@ import { errorReducer } from "./errorRedux";
 const reducer = combineReducers({
   cart: cartReducer,
   auth: authReducer,
-  cartToDB: cartToDBReducer,
+  item: itemReducer,
   error: errorReducer
   });
 
 const middleware = [thunk];
 
-// const cartItemsInLocalStorage = localStorage.getItem("cart")
-//   ? JSON.parse(localStorage.getItem("cart"))
-//   : [];
+const cartItemsInLocalStorage = localStorage.getItem("cart")
+  ? JSON.parse(localStorage.getItem("cart"))
+  : [];
 
-// const initialState = {
-//   cart: {
-//     cartItems: cartItemsInLocalStorage,
+const initialState = {
+  cart: {
+    cartItems: cartItemsInLocalStorage,
     
-//   },
-// };
+  },
+};
 
-const initialState = [];
+// const initialState = [];
 
 const store = createStore(
   reducer,

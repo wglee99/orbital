@@ -20,7 +20,7 @@ export const getCart = (id) => (dispatch) => {
     );
 };
 
-export const addCartToDB = (id, items) => (dispatch) => {
+export const itemsToDB = (id, items) => (dispatch) => {
   axios
     .post(`/api/cart/${id}`, { items })
     .then((res) =>
@@ -36,17 +36,15 @@ export const addCartToDB = (id, items) => (dispatch) => {
 
 // cart reducers
 const initialState = {
-  cart: null,
-  loading: false,
+  cart: [],
 };
 
-export const cartToDBReducer = (state = initialState, action) => {
+export const itemReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_CART:
       return {
         ...state,
         cart: action.payload,
-        loading: false,
       };
 
     case ADD_TO_CART:

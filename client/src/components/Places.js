@@ -13,8 +13,8 @@ import Paper from "@material-ui/core/Paper";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../redux/redux";
 import { connect } from "react-redux";
-import { addCartToDB, getCart } from "../redux/cartRedux";
 import { useLocation } from "react-router";
+import MyList from "./MyList";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -78,16 +78,9 @@ function Places({ auth, addCartToDB, getCart }) {
   const { cartItems } = cart;
 
   if (auth.user !== null) {
-  const userId = auth.user._id;
+    const userId = auth.user._id;
   }
 
-  const handleSave = (userId) => {
-    addCartToDB(userId, cartItems);
-  };
-
-  const handleGetCart = (userId) => {
-    getCart(userId);
-  };
   return (
     <div style={{ display: "flex" }}>
       <TableContainer component={Paper} style={{ width: 1500 }}>
@@ -128,7 +121,7 @@ function Places({ auth, addCartToDB, getCart }) {
         <h3>My List</h3>
 
         {auth.isAuthenticated
-          ? handleGetCart
+          ? <MyList />
           : cartItems.map((item) => {
               return (
                 <ul>
@@ -151,4 +144,4 @@ function mapStateToProps(state) {
   return { auth: state.auth, cartItems: state.cartItems };
 }
 
-export default connect(mapStateToProps, { addCartToDB })(Places);
+export default connect(mapStateToProps, {})(Places);

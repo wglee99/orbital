@@ -2,7 +2,7 @@ import Container from "@material-ui/core/Container";
 import { useSelector } from "react-redux";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useState } from "react";
-import { getCart } from "../redux/cartRedux";
+import { getCart } from "../redux/itemRedux";
 import { connect } from "react-redux";
 
 // const Itinerary = ( {auth, getCart} ) => {

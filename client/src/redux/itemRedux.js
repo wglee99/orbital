@@ -4,9 +4,12 @@ import { returnErrors } from "./errorRedux";
 // cart types
 export const GET_CART = "GET_CART";
 export const ADD_TO_CART = "ADD_TO_CART";
+export const ITEMS_LOADING = "ITEMS_LOADING";
+
 
 // cart actions
 export const getCart = (id) => (dispatch) => {
+  dispatch(setItemsLoading());
   axios
     .get(`/api/cart/${id}`)
     .then((res) =>
@@ -34,6 +37,12 @@ export const itemsToDB = (id, items) => (dispatch) => {
     );
 };
 
+export const setItemsLoading = () => {
+  return{
+      type: ITEMS_LOADING
+  }
+}
+
 // cart reducers
 const initialState = {
   cart: [],
@@ -45,6 +54,7 @@ export const itemReducer = (state = initialState, action) => {
       return {
         ...state,
         cart: action.payload,
+        loading: false
       };
 
     case ADD_TO_CART:

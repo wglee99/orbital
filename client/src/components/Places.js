@@ -58,8 +58,7 @@ function Places({ auth, addCartToDB, getCart }) {
   }
 
   const storedVenue = localStorage.getItem("name");
-  console.log(storedVenue);
-
+  
   const url = `https://api.foursquare.com/v2/venues/explore?client_id=${clientID}&client_secret=${clientSecret}&v=${api_v}&near=${storedVenue}&query=tourist&limit=70&offset=5`;
 
   const [reco, setReco] = useState([]);
@@ -76,10 +75,6 @@ function Places({ auth, addCartToDB, getCart }) {
 
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
-
-  if (auth.user !== null) {
-    const userId = auth.user._id;
-  }
 
   return (
     <div style={{ display: "flex" }}>
@@ -120,21 +115,23 @@ function Places({ auth, addCartToDB, getCart }) {
       <Container style={{ width: 1000 }}>
         <h3>My List</h3>
 
-        {auth.isAuthenticated
-          ? <MyList />
-          : cartItems.map((item) => {
-              return (
-                <ul>
-                  {item.name}
-                  <Button
-                    color="secondary"
-                    onClick={() => dispatch(removeFromCart(item.id))}
-                  >
-                    Remove
-                  </Button>
-                </ul>
-              );
-            })}
+        {auth.isAuthenticated ? (
+          <MyList />
+        ) : (
+          cartItems.map((item) => {
+            return (
+              <ul>
+                {item.name}
+                <Button
+                  color="secondary"
+                  onClick={() => dispatch(removeFromCart(item.id))}
+                >
+                  Remove
+                </Button>
+              </ul>
+            );
+          })
+        )}
       </Container>
     </div>
   );

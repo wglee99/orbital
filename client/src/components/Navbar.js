@@ -46,11 +46,9 @@ function NavTabs({ auth }) {
   const authLinks = (
     <Fragment>
       <NavItem>
-        {/* <div className="navbar-text mr-3"> */}
-        <strong mr-3 color="black">
+        <strong mr-3="true" color="black">
           {auth.user ? `Welcome ${auth.user.name}` : ""}
         </strong>
-        {/* </div> */}
       </NavItem>
 
       <NavItem>

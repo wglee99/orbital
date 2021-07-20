@@ -6,17 +6,18 @@ export const GET_CART = "GET_CART";
 export const ADD_TO_CART = "ADD_TO_CART";
 export const ITEMS_LOADING = "ITEMS_LOADING";
 
-
 // cart actions
 export const getCart = (id) => (dispatch) => {
   dispatch(setItemsLoading());
   axios
     .get(`/api/cart/${id}`)
-    .then((res) =>
+    .then((res) => 
+    {console.log(res.data)
       dispatch({
         type: GET_CART,
         payload: res.data,
       })
+    }
     )
     .catch((err) =>
       dispatch(returnErrors(err.response.data, err.response.status))
@@ -38,14 +39,15 @@ export const itemsToDB = (id, items) => (dispatch) => {
 };
 
 export const setItemsLoading = () => {
-  return{
-      type: ITEMS_LOADING
-  }
-}
+  return {
+    type: ITEMS_LOADING,
+  };
+};
 
 // cart reducers
 const initialState = {
   cart: [],
+  loading: true,
 };
 
 export const itemReducer = (state = initialState, action) => {
@@ -53,14 +55,20 @@ export const itemReducer = (state = initialState, action) => {
     case GET_CART:
       return {
         ...state,
-        cart: action.payload,
-        loading: false
+        items: action.payload,
+        loading: false,
       };
 
     case ADD_TO_CART:
       return {
         ...state,
-        cart: action.payload,
+        items: action.payload,
+      };
+
+    case ITEMS_LOADING:
+      return {
+        ...state,
+        loading: true,
       };
 
     default:

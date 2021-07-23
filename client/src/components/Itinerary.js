@@ -1,19 +1,28 @@
 import Container from "@material-ui/core/Container";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getCart } from "../redux/itemRedux";
-import { connect } from "react-redux";
 
-// const Itinerary = ( {auth, getCart} ) => {
-//   useEffect(() => {
-//     getCart(auth.user.userId)
-//   })
-function Itinerary({ auth, getCart }) {
-  const cart = useSelector((state) => state.cart);
-  const { cartItems } = cart;
+const Itinerary = () => {
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
-  const [listItems, setListItems] = useState(cartItems);
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(getCart(user._id));
+    }
+  }, [dispatch, user, isAuthenticated]);
+
+  const item = useSelector((state) => state.item);
+
+  console.log(item);
+
+  const { items } = item;
+
+  console.log(items);
+
+  const [listItems, setListItems] = useState(items?.items);
 
   function handleOnDragEnd(result) {
     if (!result.destination) return;
@@ -25,12 +34,12 @@ function Itinerary({ auth, getCart }) {
     setListItems(items);
   }
 
-  return auth.isAuthenticated ? (
+  return isAuthenticated ? (
     <div style={{ display: "flex" }}>
       <Container border="1px" border-radius="2px">
         <h3>My List</h3>
         <DragDropContext onDragEnd={handleOnDragEnd}>
-          <Droppable droppableId="cartItems">
+          <Droppable droppableId="listItems">
             {(provided) => (
               <ul ref={provided.innerRef} {...provided.droppableProps}>
                 {listItems.map((item, index) => {
@@ -68,11 +77,6 @@ function Itinerary({ auth, getCart }) {
       <strong>You are not logged in!</strong>
     </h1>
   );
-}
+};
 
-const mapStateToProps = (state) => ({
-  cart: state.cartItems,
-  auth: state.auth,
-});
-
-export default connect(mapStateToProps, { getCart })(Itinerary);
+export default Itinerary;

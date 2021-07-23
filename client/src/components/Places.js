@@ -15,6 +15,7 @@ import { addToCart, removeFromCart } from "../redux/redux";
 import { connect } from "react-redux";
 import { useLocation } from "react-router";
 import MyList from "./MyList";
+import { itemsToDB } from "../redux/itemRedux";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -43,7 +44,7 @@ const useStyles = makeStyles({
 //const url =
 //"https://api.foursquare.com/v2/venues/explore?client_id=ZQAGA4ZUCP0NJVMTYE20YXYL4UAHLVQKUDBHBK1WFRQLQSZA&client_secret=KQPU2Q3YWTVZFCJY3JFV2D5N1SCQJSXWFFQSKTX2GGURC0JI&v=20190425&near=bali&query=tourist&limit=70&offset=5";
 
-function Places({ auth, addCartToDB, getCart }) {
+function Places({ auth }) {
   const classes = useStyles();
 
   const location = useLocation();
@@ -76,6 +77,8 @@ function Places({ auth, addCartToDB, getCart }) {
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
 
+  const { isAuthenticated, user } = auth; 
+
   return (
     <div style={{ display: "flex" }}>
       <TableContainer component={Paper} style={{ width: 1500 }}>
@@ -98,8 +101,9 @@ function Places({ auth, addCartToDB, getCart }) {
                     <Button
                       variant="contained"
                       color="primary"
-                      onClick={() =>
-                        dispatch(addToCart(item.venue.id, item.venue.name))
+                      onClick={() => isAuthenticated  
+                        ? dispatch(itemsToDB(user._id, item.venue.id, item.venue.name))
+                        : dispatch(addToCart(item.venue.id, item.venue.name))
                       }
                     >
                       Add to List
@@ -117,6 +121,7 @@ function Places({ auth, addCartToDB, getCart }) {
 
         {auth.isAuthenticated ? (
           <MyList />
+          // <h3>Test</h3>
         ) : (
           cartItems.map((item) => {
             return (

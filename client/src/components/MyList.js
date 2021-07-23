@@ -1,17 +1,20 @@
 import { useDispatch, useSelector } from "react-redux";
-import { getCart } from "../redux/itemRedux";
+import { getCart, deleteFromCart } from "../redux/itemRedux";
 import { useEffect } from "react";
+import { Button } from "@material-ui/core";
 
-const MyList = ({ auth }) => {
+const MyList = () => {
   const dispatch = useDispatch();
   const { user, isLoading } = useSelector((state) => state.auth);
+
+  // const userId = user._id;
 
   useEffect(() => {
     if (!isLoading) {
       let userId = 0;
       if (user !== null) {
         userId = user._id;
-        localStorage.setItem(userId, 'storedId');
+        localStorage.setItem(userId, "storedId");
       }
       console.log(userId);
       dispatch(getCart(userId));
@@ -31,7 +34,19 @@ const MyList = ({ auth }) => {
       ) : (
         <div>
           {items?.items?.map((item) => {
-            return <ul>{item.name}</ul>;
+            return (
+              <ul>
+                {item.name}
+                <Button
+                  color="secondary"
+                  onClick={() =>
+                    dispatch(deleteFromCart(user._id, item.productId))
+                  }
+                >
+                  Remove
+                </Button>
+              </ul>
+            );
           })}
         </div>
       )}

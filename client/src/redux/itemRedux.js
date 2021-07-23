@@ -5,28 +5,28 @@ import { returnErrors } from "./errorRedux";
 export const GET_CART = "GET_CART";
 export const ADD_TO_CART = "ADD_TO_CART";
 export const ITEMS_LOADING = "ITEMS_LOADING";
+export const DELETE_FROM_CART = "DELETE_FROM_CART";
 
 // cart actions
 export const getCart = (id) => (dispatch) => {
   dispatch(setItemsLoading());
   axios
     .get(`/api/cart/${id}`)
-    .then((res) => 
-    {console.log(res.data)
+    .then((res) => {
+      console.log(res.data);
       dispatch({
         type: GET_CART,
         payload: res.data,
-      })
-    }
-    )
+      });
+    })
     .catch((err) =>
       dispatch(returnErrors(err.response.data, err.response.status))
     );
 };
 
-export const itemsToDB = (id, items) => (dispatch) => {
+export const itemsToDB = (id, productId, name) => (dispatch) => {
   axios
-    .post(`/api/cart/${id}`, { items })
+    .post(`/api/cart/${id}`, { productId, name })
     .then((res) =>
       dispatch({
         type: ADD_TO_CART,
@@ -36,6 +36,22 @@ export const itemsToDB = (id, items) => (dispatch) => {
     .catch((err) =>
       dispatch(returnErrors(err.response.data, err.response.status))
     );
+};
+
+export const deleteFromCart = (userId, itemId) => (dispatch) => {
+  axios
+    .delete(`/api/cart/${userId}/${itemId}`)
+    .then((res) =>
+      dispatch({
+        type: DELETE_FROM_CART,
+        payload: res.data,
+      })
+      
+    )
+    .catch((err) =>
+      dispatch(returnErrors(err.response.data, err.response.status))
+    );
+
 };
 
 export const setItemsLoading = () => {
@@ -60,6 +76,12 @@ export const itemReducer = (state = initialState, action) => {
       };
 
     case ADD_TO_CART:
+      return {
+        ...state,
+        items: action.payload,
+      };
+
+    case DELETE_FROM_CART:
       return {
         ...state,
         items: action.payload,

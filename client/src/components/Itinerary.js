@@ -36,8 +36,8 @@ function Itinerary({ auth, getCart }) {
                 {listItems.map((item, index) => {
                   return (
                     <Draggable
-                      key={item.id}
-                      draggableId={item.id}
+                      key={item.producrtId}
+                      draggableId={item.productId}
                       index={index}
                     >
                       {(provided) => (

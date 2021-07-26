@@ -53,6 +53,8 @@ const Itinerary = () => {
           items: destItems,
         },
       });
+
+      console.log(columns);
     } else {
       const column = columns[source.droppableId];
       const copiedItems = [...column.items];
@@ -102,7 +104,7 @@ const Itinerary = () => {
                           minHeight: 500,
                         }}
                       >
-                        {column.items.map((item, index) => {
+                        {column.items?.map((item, index) => {
                           return (
                             <Draggable
                               key={item.productId}

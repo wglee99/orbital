@@ -22,7 +22,7 @@ const dragReducer = produce((draft, action) => {
     }
   });
 
-  const Index = () => {
+  const Lists = () => {
     const [state, dispatch] = useReducer(dragReducer, {
       items: data,
     });

@@ -41,11 +41,8 @@ const Itinerary = () => {
                 {listItems.map((item, index) => {
                   return (
                     <Draggable
-
                       key={item.productId}
-
-                      key={item.producrtId}
-
+                      key={item.productId}
                       draggableId={item.productId}
                       index={index}
                     >

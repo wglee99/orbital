@@ -41,11 +41,11 @@ const Itinerary = () => {
                 {listItems.map((item, index) => {
                   return (
                     <Draggable
-<<<<<<< HEAD
+
                       key={item.productId}
-=======
+
                       key={item.producrtId}
->>>>>>> 62bace9e92bc701d269f647d6eb62bb890fb38b9
+
                       draggableId={item.productId}
                       index={index}
                     >

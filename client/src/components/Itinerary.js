@@ -53,8 +53,6 @@ const Itinerary = () => {
           items: destItems,
         },
       });
-
-      console.log(columns);
     } else {
       const column = columns[source.droppableId];
       const copiedItems = [...column.items];
